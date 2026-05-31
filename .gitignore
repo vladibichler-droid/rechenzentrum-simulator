@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code
+.vscode/
+
+# Systemdateien
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Temporäre Dateien
+*.tmp
+*.temp
+
+# ZIP-Sicherungen
+*.zip
+
+# Exportierte Berichte
+systembericht-rechenzentrum-*.txt
+ereignisprotokoll-rechenzentrum-*.txt
+
+# Backups
+backup/
+backups/
+sicherung/
+sicherungen/
