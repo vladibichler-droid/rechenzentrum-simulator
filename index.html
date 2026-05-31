@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rechenzentrum-Simulator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Datacenter Monitoring</p>
+        <h1>Rechenzentrum-Simulator</h1>
+      </div>
+
+      <div class="time-box">
+        <span class="time-label">Systemzeit</span>
+        <span id="clock">--:--:--</span>
+      </div>
+    </header>
+
+    <section id="control" class="control-section">
+      <div class="section-header">
+        <h2>Leitstand</h2>
+        <span>Schnellstatus</span>
+      </div>
+
+      <div class="control-grid">
+        <article class="control-card">
+          <span class="control-label">System</span>
+          <strong id="controlSystemStatus">--</strong>
+          <p id="controlSystemText">Status wird geladen.</p>
+        </article>
+
+        <article class="control-card">
+          <span class="control-label">Incident</span>
+          <strong id="controlIncident">--</strong>
+          <p id="controlIncidentText">Keine Daten geladen.</p>
+        </article>
+
+        <article class="control-card">
+          <span class="control-label">Warnungen</span>
+          <strong id="controlWarningCount">--</strong>
+          <p>aktive Meldungen</p>
+        </article>
+
+        <article class="control-card">
+          <span class="control-label">Ping</span>
+          <strong id="controlPing">--</strong>
+          <p>Netzwerklatenz</p>
+        </article>
+
+        <article class="control-card">
+          <span class="control-label">Strom</span>
+          <strong id="controlPower">--</strong>
+          <p id="controlPowerText">Stromstatus wird geladen.</p>
+        </article>
+
+        <article class="control-card">
+          <span class="control-label">Kühlung</span>
+          <strong id="controlCooling">--</strong>
+          <p id="controlCoolingText">Kühlstatus wird geladen.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="jump-nav-section">
+      <div class="section-header">
+        <h2>Bereichsmenü</h2>
+        <span>Schnellnavigation</span>
+      </div>
+
+      <nav class="jump-nav-grid" aria-label="Dashboard-Navigation">
+        <a class="jump-link" href="#control">Leitstand</a>
+        <a class="jump-link" href="#status">Status</a>
+        <a class="jump-link" href="#overview">Übersicht</a>
+        <a class="jump-link" href="#network">Netzwerk</a>
+        <a class="jump-link" href="#firewall">Firewall</a>
+        <a class="jump-link" href="#charts">Diagramme</a>
+        <a class="jump-link" href="#power">Strom</a>
+        <a class="jump-link" href="#cooling">Kühlung</a>
+        <a class="jump-link" href="#simulation">Simulation</a>
+        <a class="jump-link" href="#incident">Incident</a>
+        <a class="jump-link" href="#report">Bericht</a>
+        <a class="jump-link" href="#racks">Racks</a>
+        <a class="jump-link" href="#logs">Logs</a>
+      </nav>
+    </section>
+
+    <section id="status" class="status-grid">
+      <article class="status-card">
+        <span class="status-title">Systemstatus</span>
+        <strong id="systemStatus">Stabil</strong>
+        <p id="systemStatusText">Alle kritischen Hauptsysteme laufen normal.</p>
+      </article>
+
+      <article class="status-card">
+        <span class="status-title">Racks Online</span>
+        <strong>2 / 3</strong>
+        <p>Rack 03 befindet sich aktuell in Wartung.</p>
+      </article>
+
+      <article class="status-card">
+        <span class="status-title">Warnungen</span>
+        <strong id="warningCount">1</strong>
+        <p id="warningText">Eine Wartungsmeldung ist aktiv.</p>
+      </article>
+    </section>
+
+    <section id="overview" class="overview-section">
+      <div class="section-header">
+        <h2>Datacenter-Übersicht</h2>
+        <span>Live berechnet</span>
+      </div>
+
+      <div class="overview-grid">
+        <article class="overview-card">
+          <span class="overview-label">Aktive Server</span>
+          <strong id="activeServers">--</strong>
+          <p>Server mit aktivem Betriebsstatus</p>
+        </article>
+
+        <article class="overview-card">
+          <span class="overview-label">Durchschn. CPU</span>
+          <strong id="averageCpu">--</strong>
+          <p>Aktuelle Gesamtlast</p>
+        </article>
+
+        <article class="overview-card">
+          <span class="overview-label">Durchschn. RAM</span>
+          <strong id="averageRam">--</strong>
+          <p>Arbeitsspeicher-Auslastung</p>
+        </article>
+
+        <article class="overview-card">
+          <span class="overview-label">Durchschn. Temperatur</span>
+          <strong id="averageTemp">--</strong>
+          <p>Temperatur aktiver Systeme</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="network" class="network-section">
+      <div class="section-header">
+        <h2>Netzwerkübersicht</h2>
+        <span>Topologie & Traffic</span>
+      </div>
+
+      <div class="network-layout">
+        <div class="network-map">
+          <div class="network-node internet">
+            <span class="node-title">Internet</span>
+            <span class="node-status online">Online</span>
+          </div>
+
+          <div class="network-line vertical"></div>
+
+          <div class="network-node firewall">
+            <span class="node-title">Firewall</span>
+            <span class="node-status online">Geschützt</span>
+          </div>
+
+          <div class="network-line vertical"></div>
+
+          <div class="network-node switch">
+            <span class="node-title">Core Switch</span>
+            <span class="node-status online">Aktiv</span>
+          </div>
+
+          <div class="network-branches">
+            <div class="branch-item">
+              <div class="network-line vertical small"></div>
+              <div class="network-node endpoint">
+                <span class="node-title">Rack 01</span>
+                <span class="node-status online">Online</span>
+              </div>
+            </div>
+
+            <div class="branch-item">
+              <div class="network-line vertical small"></div>
+              <div class="network-node endpoint">
+                <span class="node-title">Rack 02</span>
+                <span class="node-status online">Online</span>
+              </div>
+            </div>
+
+            <div class="branch-item">
+              <div class="network-line vertical small warning-line"></div>
+              <div class="network-node endpoint warning-node">
+                <span class="node-title">Rack 03</span>
+                <span class="node-status warning">Wartung</span>
+              </div>
+            </div>
+
+            <div class="branch-item">
+              <div class="network-line vertical small"></div>
+              <div class="network-node endpoint">
+                <span class="node-title">Backup</span>
+                <span class="node-status online">Online</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="traffic-panel">
+          <article class="traffic-card">
+            <span class="traffic-label">Download</span>
+            <strong id="downloadTraffic">--</strong>
+            <p>eingehender Traffic</p>
+          </article>
+
+          <article class="traffic-card">
+            <span class="traffic-label">Upload</span>
+            <strong id="uploadTraffic">--</strong>
+            <p>ausgehender Traffic</p>
+          </article>
+
+          <article class="traffic-card">
+            <span class="traffic-label">Ping</span>
+            <strong id="pingValue">--</strong>
+            <p>Latenz zur Außenverbindung</p>
+          </article>
+
+          <article class="traffic-card">
+            <span class="traffic-label">Paketverlust</span>
+            <strong id="packetLoss">--</strong>
+            <p>verlorene Datenpakete</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="firewall" class="firewall-section">
+      <div class="section-header">
+        <h2>Firewall-Center</h2>
+        <span>Security Monitoring</span>
+      </div>
+
+      <div class="firewall-grid">
+        <article class="firewall-card">
+          <span class="firewall-label">Firewall-Status</span>
+          <strong id="firewallStatus">--</strong>
+          <p id="firewallStatusText">Sicherheitsstatus wird geladen.</p>
+        </article>
+
+        <article class="firewall-card">
+          <span class="firewall-label">Blockierte Anfragen</span>
+          <strong id="blockedRequests">--</strong>
+          <p>verdächtige Zugriffe</p>
+        </article>
+
+        <article class="firewall-card">
+          <span class="firewall-label">Erlaubte Verbindungen</span>
+          <strong id="allowedConnections">--</strong>
+          <p>freigegebener Traffic</p>
+        </article>
+
+        <article class="firewall-card">
+          <span class="firewall-label">Sicherheitsmodus</span>
+          <strong id="securityMode">--</strong>
+          <p>aktuelle Schutzstufe</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="charts" class="charts-section">
+      <div class="section-header">
+        <h2>Bandbreiten-Diagramme</h2>
+        <span>Live-Verlauf</span>
+      </div>
+
+      <div class="charts-grid">
+        <article class="chart-card">
+          <div class="chart-header">
+            <span>Download-Verlauf</span>
+            <strong id="downloadChartValue">--</strong>
+          </div>
+
+          <div id="downloadChart" class="bar-chart"></div>
+        </article>
+
+        <article class="chart-card">
+          <div class="chart-header">
+            <span>Upload-Verlauf</span>
+            <strong id="uploadChartValue">--</strong>
+          </div>
+
+          <div id="uploadChart" class="bar-chart"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="power" class="power-section">
+      <div class="section-header">
+        <h2>Stromversorgung / USV</h2>
+        <span>Power Monitoring</span>
+      </div>
+
+      <div class="power-grid">
+        <article class="power-card">
+          <span class="power-label">Stromstatus</span>
+          <strong id="powerStatus">--</strong>
+          <p id="powerStatusText">Stromversorgung wird geprüft.</p>
+        </article>
+
+        <article class="power-card">
+          <span class="power-label">Netzlast</span>
+          <strong id="gridLoad">--</strong>
+          <div class="progress">
+            <div id="gridLoadBar" class="progress-fill"></div>
+          </div>
+          <p>aktuelle Auslastung der Stromversorgung</p>
+        </article>
+
+        <article class="power-card">
+          <span class="power-label">USV-Akkustand</span>
+          <strong id="upsBattery">--</strong>
+          <div class="progress">
+            <div id="upsBatteryBar" class="progress-fill"></div>
+          </div>
+          <p>Reserve bei Stromausfall</p>
+        </article>
+
+        <article class="power-card">
+          <span class="power-label">Notstrom</span>
+          <strong id="generatorStatus">--</strong>
+          <p id="generatorStatusText">Generatorstatus wird geladen.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="cooling" class="cooling-section">
+      <div class="section-header">
+        <h2>Kühlungssystem</h2>
+        <span>Cooling Monitoring</span>
+      </div>
+
+      <div class="cooling-grid">
+        <article class="cooling-card">
+          <span class="cooling-label">Kühlstatus</span>
+          <strong id="coolingStatus">--</strong>
+          <p id="coolingStatusText">Kühlung wird geprüft.</p>
+        </article>
+
+        <article class="cooling-card">
+          <span class="cooling-label">Raumtemperatur</span>
+          <strong id="roomTemperature">--</strong>
+          <div class="progress">
+            <div id="roomTemperatureBar" class="progress-fill"></div>
+          </div>
+          <p>Temperatur im Serverraum</p>
+        </article>
+
+        <article class="cooling-card">
+          <span class="cooling-label">Kühlleistung</span>
+          <strong id="coolingPower">--</strong>
+          <div class="progress">
+            <div id="coolingPowerBar" class="progress-fill"></div>
+          </div>
+          <p>aktuelle Leistung der Klimaanlage</p>
+        </article>
+
+        <article class="cooling-card">
+          <span class="cooling-label">Lüfterstatus</span>
+          <strong id="fanSpeed">--</strong>
+          <div class="progress">
+            <div id="fanSpeedBar" class="progress-fill"></div>
+          </div>
+          <p>aktive Lüftergeschwindigkeit</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="simulation" class="simulation-section">
+      <div class="section-header">
+        <h2>Ausfallsimulation</h2>
+        <span>Incident Control</span>
+      </div>
+
+      <div class="simulation-grid">
+        <article class="simulation-card">
+          <span class="simulation-label">Simulationsstatus</span>
+          <strong id="simulationStatus">Bereit</strong>
+          <p id="simulationStatusText">Keine aktive Simulation.</p>
+        </article>
+
+        <article class="simulation-card">
+          <span class="simulation-label">Aktiver Vorfall</span>
+          <strong id="activeIncident">Keiner</strong>
+          <p id="incidentImpact">System arbeitet normal.</p>
+        </article>
+
+        <article class="simulation-card simulation-controls-card">
+          <span class="simulation-label">Simulation starten</span>
+
+          <div class="simulation-controls">
+            <button id="simulateServerFailureBtn" class="simulation-button">Server-Ausfall</button>
+            <button id="simulateNetworkFailureBtn" class="simulation-button">Netzwerkstörung</button>
+            <button id="simulatePowerFailureBtn" class="simulation-button">Stromproblem</button>
+            <button id="simulateCoolingFailureBtn" class="simulation-button">Kühlproblem</button>
+            <button id="resetSimulationBtn" class="simulation-button reset">Zurücksetzen</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="incident" class="incident-section">
+      <div class="section-header">
+        <h2>Incident-Management</h2>
+        <span>Vorfallbearbeitung</span>
+      </div>
+
+      <div class="incident-grid">
+        <article class="incident-card">
+          <span class="incident-label">Aktiver Incident</span>
+          <strong id="incidentTitle">Keiner</strong>
+          <p id="incidentSummary">Kein aktiver Vorfall.</p>
+        </article>
+
+        <article class="incident-card">
+          <span class="incident-label">Priorität</span>
+          <strong id="incidentPriority">Normal</strong>
+          <p id="incidentPriorityText">Keine besondere Priorität.</p>
+        </article>
+
+        <article class="incident-card">
+          <span class="incident-label">Bearbeitungsstatus</span>
+          <strong id="incidentWorkflow">Kein Ticket</strong>
+          <p id="incidentWorkflowText">Es ist kein Incident geöffnet.</p>
+        </article>
+
+        <article class="incident-card">
+          <span class="incident-label">Empfohlene Maßnahme</span>
+          <strong id="incidentRecommendation">Keine</strong>
+          <p id="incidentOwner">Zuständigkeit: nicht zugewiesen</p>
+        </article>
+
+        <article class="incident-card incident-actions-card">
+          <span class="incident-label">Incident-Aktionen</span>
+
+          <div class="incident-actions">
+            <button id="acknowledgeIncidentBtn" class="incident-button">Incident übernehmen</button>
+            <button id="resolveIncidentBtn" class="incident-button resolve">Als behoben markieren</button>
+          </div>
+
+          <p>Diese Aktionen wirken auf die aktuell aktive Simulation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="report" class="report-section">
+      <div class="section-header">
+        <h2>Systembericht</h2>
+        <span>Statusbericht</span>
+      </div>
+
+      <div class="report-layout">
+        <article class="report-card">
+          <span class="report-label">Berichtszusammenfassung</span>
+          <strong id="reportHeadline">--</strong>
+          <p id="reportIntro">Der Bericht wird geladen.</p>
+
+          <div class="report-actions">
+            <button id="updateReportBtn" class="report-button">Bericht aktualisieren</button>
+            <button id="copyReportBtn" class="report-button copy">Bericht kopieren</button>
+            <button id="downloadReportBtn" class="report-button copy">Bericht herunterladen</button>
+          </div>
+
+          <p id="copyReportInfo" class="report-copy-info">Noch nichts kopiert oder gespeichert.</p>
+        </article>
+
+        <article class="report-output-card">
+          <span class="report-label">Aktueller Statusbericht</span>
+          <pre id="systemReportOutput" class="system-report-output">Bericht wird erstellt...</pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="racks" class="rack-section">
+      <div class="section-header">
+        <h2>Serverracks</h2>
+        <span>Live-Übersicht</span>
+      </div>
+
+      <div class="rack-grid">
+        <article class="rack-card">
+          <div class="rack-head">
+            <h3>Rack 01</h3>
+            <span class="badge online">Online</span>
+          </div>
+
+          <div class="server-list">
+            <div class="server active" data-cpu="34" data-ram="48" data-temp="39">
+              <span class="server-name">WEB-01</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server active" data-cpu="41" data-ram="51" data-temp="41">
+              <span class="server-name">WEB-02</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server active" data-cpu="52" data-ram="63" data-temp="44">
+              <span class="server-name">APP-01</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server active" data-cpu="47" data-ram="59" data-temp="43">
+              <span class="server-name">APP-02</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server idle" data-cpu="4" data-ram="12" data-temp="31">
+              <span class="server-name">RESERVE-01</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server idle" data-cpu="3" data-ram="10" data-temp="30">
+              <span class="server-name">RESERVE-02</span>
+              <span class="server-metrics"></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="rack-card">
+          <div class="rack-head">
+            <h3>Rack 02</h3>
+            <span class="badge online">Online</span>
+          </div>
+
+          <div class="server-list">
+            <div class="server active" data-cpu="64" data-ram="72" data-temp="48">
+              <span class="server-name">DB-01</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server active" data-cpu="58" data-ram="69" data-temp="46">
+              <span class="server-name">DB-02</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server active" data-cpu="29" data-ram="44" data-temp="38">
+              <span class="server-name">BACKUP-01</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server idle" data-cpu="12" data-ram="33" data-temp="34">
+              <span class="server-name">STORAGE-01</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server idle" data-cpu="10" data-ram="30" data-temp="33">
+              <span class="server-name">STORAGE-02</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server idle" data-cpu="9" data-ram="28" data-temp="32">
+              <span class="server-name">STORAGE-03</span>
+              <span class="server-metrics"></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="rack-card maintenance-card">
+          <div class="rack-head">
+            <h3>Rack 03</h3>
+            <span class="badge maintenance">Wartung</span>
+          </div>
+
+          <div class="server-list">
+            <div class="server maintenance">
+              <span class="server-name">TEST-01</span>
+              <span class="server-metrics">CPU -- · RAM -- · Temp --</span>
+            </div>
+            <div class="server maintenance">
+              <span class="server-name">TEST-02</span>
+              <span class="server-metrics">CPU -- · RAM -- · Temp --</span>
+            </div>
+            <div class="server idle" data-cpu="7" data-ram="18" data-temp="32">
+              <span class="server-name">DEV-01</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server idle" data-cpu="6" data-ram="17" data-temp="31">
+              <span class="server-name">DEV-02</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server idle" data-cpu="5" data-ram="15" data-temp="31">
+              <span class="server-name">DEV-03</span>
+              <span class="server-metrics"></span>
+            </div>
+            <div class="server idle" data-cpu="5" data-ram="14" data-temp="30">
+              <span class="server-name">DEV-04</span>
+              <span class="server-metrics"></span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="logs" class="log-section">
+      <div class="section-header">
+        <h2>Ereignisprotokoll</h2>
+        <span>Systemmeldungen</span>
+      </div>
+
+      <div id="eventLog" class="event-log"></div>
+    </section>
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/logs.js"></script>
+  <script src="js/monitoring.js"></script>
+  <script src="js/network.js"></script>
+  <script src="js/firewall.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/power.js"></script>
+  <script src="js/cooling.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/incident.js"></script>
+  <script src="js/report.js"></script>
+  <script src="js/controlbar.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
